@@ -1,5 +1,5 @@
-var autoprefixer = require('autoprefixer');
-var paths = require('./config/paths');
+const autoprefixer = require('autoprefixer');
+const paths = require('./config/paths');
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -41,17 +41,15 @@ module.exports = {
         ],
       },
     ],
-    postcss: function () {
-      return [
-        autoprefixer({
-          browsers: [
-            '>1%',
-            'last 4 versions',
-            'Firefox ESR',
-            'not ie < 11',
-          ],
-        }),
-      ];
-    },
+    postcss: () => [
+      autoprefixer({
+        browsers: [
+          '>1%',
+          'last 4 versions',
+          'Firefox ESR',
+          'not ie < 11',
+        ],
+      }),
+    ],
   },
 };

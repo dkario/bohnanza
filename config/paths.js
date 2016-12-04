@@ -1,7 +1,6 @@
-var path = require('path');
-var fs = require('fs');
+const path = require('path');
 
-var appDirectory = process.cwd();
+const appDirectory = process.cwd();
 function resolveApp(relativePath) {
   return path.resolve(appDirectory, relativePath);
 }
