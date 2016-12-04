@@ -8,5 +8,6 @@ function resolveApp(relativePath) {
 
 module.exports = {
   indexJs: resolveApp('src/index.js'),
-  dist: resolveApp('dist')
+  src: resolveApp('src'),
+  dist: resolveApp('dist'),
 };
