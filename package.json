@@ -1,0 +1,25 @@
+{
+  "name": "bohnanza",
+  "version": "1.0.0",
+  "description": "bean",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dkario/bohnanza.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dkario/bohnanza/issues"
+  },
+  "homepage": "https://github.com/dkario/bohnanza#readme",
+  "devDependencies": {
+    "babel-polyfill": "^6.16.0",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7",
+    "webpack": "^1.13.3"
+  }
+}
