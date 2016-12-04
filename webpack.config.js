@@ -1,3 +1,4 @@
+var autoprefixer = require('autoprefixer');
 var paths = require('./config/paths');
 
 module.exports = {
@@ -12,14 +13,14 @@ module.exports = {
   module: {
     preLoaders: [
       {
-        test: /\.js/,
+        test: /\.js$/,
         loader: 'eslint',
         include: paths.src,
       },
     ],
     loaders: [
       {
-        test: /\.js/,
+        test: /\.js$/,
         include: paths.src,
         exclude: /node_modules/,
         loader: 'babel',
@@ -31,6 +32,26 @@ module.exports = {
           cacheDirectory: true,
         },
       },
+      {
+        test: /\.css$/,
+        loaders: [
+          'style',
+          'css?importLoaders=1',
+          'postcss',
+        ],
+      },
     ],
+    postcss: function () {
+      return [
+        autoprefixer({
+          browsers: [
+            '>1%',
+            'last 4 versions',
+            'Firefox ESR',
+            'not ie < 11',
+          ],
+        }),
+      ];
+    },
   },
 };
