@@ -17,5 +17,20 @@ module.exports = {
         include: paths.src,
       },
     ],
+    loaders: [
+      {
+        test: /\.js/,
+        include: paths.src,
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          presets: [
+            'es2015',
+            'stage-2',
+          ],
+          cacheDirectory: true,
+        },
+      },
+    ],
   },
 };
