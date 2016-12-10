@@ -4,7 +4,7 @@ const obj = { one: 1, two: 2 };
 
 const theObj = {
   ...obj,
-  four: 4,
+  four: 5,
 };
 
 console.log(theObj);

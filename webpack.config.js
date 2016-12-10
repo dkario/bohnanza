@@ -4,6 +4,7 @@ const paths = require('./config/paths');
 module.exports = {
   devtool: 'cheap-module-source-map',
   entry: [
+    `webpack-dev-server/client?http://localhost:${process.env.PORT}/`,
     paths.indexJs,
   ],
   output: {
