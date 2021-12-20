@@ -26,7 +26,7 @@ interface Player {
   gold: Card[];
 }
 
-interface Game {
+export interface Game {
   players: Player[];
   deck: Card[];
   discard: Card[];
