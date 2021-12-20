@@ -1,0 +1,112 @@
+[
+  {
+    "variety": "cocoa",
+    "total": 4,
+    "beanometer": [
+      0,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "variety": "garden",
+    "total": 6,
+    "beanometer": [
+      0,
+      2,
+      3,
+      3
+    ]
+  },
+  {
+    "variety": "red",
+    "total": 8,
+    "beanometer": [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "variety": "blackeyed",
+    "total": 10,
+    "beanometer": [
+      2,
+      4,
+      5,
+      6
+    ]
+  },
+  {
+    "variety": "soy",
+    "total": 12,
+    "beanometer": [
+      2,
+      4,
+      6,
+      7
+    ]
+  },
+  {
+    "variety": "green",
+    "total": 14,
+    "beanometer": [
+      3,
+      5,
+      6,
+      7
+    ]
+  },
+  {
+    "variety": "stink",
+    "total": 16,
+    "beanometer": [
+      3,
+      5,
+      7,
+      8
+    ]
+  },
+  {
+    "variety": "chili",
+    "total": 18,
+    "beanometer": [
+      3,
+      6,
+      8,
+      9
+    ]
+  },
+  {
+    "variety": "blue",
+    "total": 20,
+    "beanometer": [
+      4,
+      6,
+      8,
+      10
+    ]
+  },
+  {
+    "variety": "wax",
+    "total": 22,
+    "beanometer": [
+      4,
+      7,
+      9,
+      11
+    ]
+  },
+  {
+    "variety": "coffee",
+    "total": 24,
+    "beanometer": [
+      4,
+      7,
+      10,
+      12
+    ]
+  }
+]

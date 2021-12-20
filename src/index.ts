@@ -1,20 +1,17 @@
-interface Card {
-  bean: Bean;
-}
-
-interface Bean {
+export interface Bean {
   variety: string;
   beanometer: Beanometer;
   total: number;
 }
 
-interface Beanometer {
-  cardsSold: number[];
+type Beanometer = [number, number, number, number];
+
+export interface Card extends Bean {
+  id: string;
 }
 
 interface BeanField {
-  bean: Bean;
-  cards: Card[];
+  cards: Card[]; // TODO: cards must be of same variety
 }
 
 type BeanFields = [BeanField, BeanField] | [BeanField, BeanField, BeanField];

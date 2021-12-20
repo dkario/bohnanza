@@ -9,7 +9,7 @@
   "scripts": {
     "start": "babel src --extensions .ts -d dist",
     "lint": "tsc --noEmit && eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
-    "test": "jest src",
+    "test": "jest src --watch",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable"

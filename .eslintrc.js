@@ -27,5 +27,6 @@ module.exports = {
     },
   },
   "rules": {
+    "sort-imports": "warn",
   }
 };
