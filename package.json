@@ -1,9 +1,8 @@
 {
-  "name": "bohn",
+  "name": "bohnanza",
   "packageManager": "yarn@3.1.1",
   "version": "0.0.0",
-  "description": "bohner",
-  "main": "index.ts",
+  "description": "bean",
   "author": "dyl",
   "license": "MIT",
   "scripts": {
