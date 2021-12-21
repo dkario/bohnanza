@@ -35,7 +35,21 @@ interface Settings {
   hand: number;
 }
 
-export interface Action {
-  type: string;
-  data?: unknown;
+export enum ActionTypes {
+  SETUP = 'SETUP',
+  HARVEST = 'HARVEST',
+}
+
+export type Action = SetupAction | HarvestAction;
+
+export interface SetupAction {
+  type: ActionTypes.SETUP;
+}
+
+export interface HarvestAction {
+  type: ActionTypes.HARVEST;
+  payload: {
+    playerId: string;
+    beanFieldIndex: 0 | 1 | 2;
+  };
 }
