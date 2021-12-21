@@ -1,6 +1,7 @@
-import {Bean, Card} from '..';
+import * as beans from 'data/beans.json';
+import {Bean, Card} from 'types';
 
-const createCards = (beans: Bean[]): Card[] =>
+export const createCards = (beans: Bean[]): Card[] =>
   beans.reduce((acc, bean) => {
     const {variety, total} = bean;
     const beansOfVariety: Card[] = [];
@@ -17,4 +18,6 @@ const createCards = (beans: Bean[]): Card[] =>
     return acc;
   }, []);
 
-export default createCards;
+const getCards = () => createCards(beans as Bean[]);
+
+export default getCards;

@@ -1,5 +1,5 @@
-import {Bean} from '../';
-import createCards from './createCards';
+import {Bean} from 'types';
+import {createCards} from './getCards';
 
 describe('createCards', () => {
   it('should create the correct amount of cards for each bean', () => {

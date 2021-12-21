@@ -16,7 +16,7 @@ interface BeanField {
 
 type BeanFields = [BeanField, BeanField] | [BeanField, BeanField, BeanField];
 
-interface Player {
+export interface Player {
   id: string;
   beanFields: BeanFields;
   hand: Card[];
@@ -27,4 +27,15 @@ export interface Game {
   players: Player[];
   deck: Card[];
   discard: Card[];
+  settings: Settings;
+}
+
+interface Settings {
+  players: number;
+  hand: number;
+}
+
+export interface Action {
+  type: string;
+  data?: unknown;
 }

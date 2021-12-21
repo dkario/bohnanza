@@ -49,6 +49,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:7.0.4"],
             ["jest", "virtual:343592804f4392040c2a4767a0d7f678948ee3377adfd44067e16897be548198bceca0fe7620fec3cd9e9f2e9113088f0243525422c862b602eaf68c1605b928#npm:27.4.5"],
             ["lint-staged", "npm:12.1.3"],
+            ["pandemonium", "npm:2.3.0"],
             ["pinst", "npm:2.1.6"],
             ["prettier", "npm:2.5.1"],
             ["react", "npm:17.0.2"],
@@ -3736,6 +3737,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:7.0.4"],
             ["jest", "virtual:343592804f4392040c2a4767a0d7f678948ee3377adfd44067e16897be548198bceca0fe7620fec3cd9e9f2e9113088f0243525422c862b602eaf68c1605b928#npm:27.4.5"],
             ["lint-staged", "npm:12.1.3"],
+            ["pandemonium", "npm:2.3.0"],
             ["pinst", "npm:2.1.6"],
             ["prettier", "npm:2.5.1"],
             ["react", "npm:17.0.2"],
@@ -6783,6 +6785,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["mnemonist", [
+        ["npm:0.39.0", {
+          "packageLocation": "./.yarn/cache/mnemonist-npm-0.39.0-bab78d04ec-1762703b6b.zip/node_modules/mnemonist/",
+          "packageDependencies": [
+            ["mnemonist", "npm:0.39.0"],
+            ["obliterator", "npm:2.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["ms", [
         ["npm:2.1.2", {
           "packageLocation": "./.yarn/cache/ms-npm-2.1.2-ec0c1512ff-673cdb2c31.zip/node_modules/ms/",
@@ -6992,6 +7004,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["obliterator", [
+        ["npm:2.0.1", {
+          "packageLocation": "./.yarn/cache/obliterator-npm-2.0.1-47b1d213d1-50ead74a40.zip/node_modules/obliterator/",
+          "packageDependencies": [
+            ["obliterator", "npm:2.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["once", [
         ["npm:1.4.0", {
           "packageLocation": "./.yarn/cache/once-npm-1.4.0-ccf03ef07a-cd0a885013.zip/node_modules/once/",
@@ -7075,6 +7096,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/p-try-npm-2.2.0-e0390dbaf8-f8a8e9a769.zip/node_modules/p-try/",
           "packageDependencies": [
             ["p-try", "npm:2.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["pandemonium", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/pandemonium-npm-2.3.0-a376c44e66-0353f9e03e.zip/node_modules/pandemonium/",
+          "packageDependencies": [
+            ["pandemonium", "npm:2.3.0"],
+            ["mnemonist", "npm:0.39.0"]
           ],
           "linkType": "HARD",
         }]
