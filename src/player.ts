@@ -1,12 +1,9 @@
 import {Player} from 'types';
+import {nanoid} from 'nanoid';
 
-let count = 0;
-
-export const createPlayer = (): Player => {
-  return {
-    id: `player${count++}`,
-    hand: [],
-    gold: [],
-    beanFields: [null, null],
-  };
-};
+export const createPlayer = ({
+  id = `player-${nanoid()}`,
+  hand = [],
+  gold = [],
+  beanFields = [{cards: []}, {cards: []}],
+}: Partial<Player> = {}): Player => ({id, hand, gold, beanFields});

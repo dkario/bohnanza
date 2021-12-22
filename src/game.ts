@@ -1,4 +1,4 @@
-import {Action, BeanFields, Game, Player} from 'types';
+import {Action, BeanFields, Game} from 'types';
 import {createPlayer} from 'player';
 import getCards from 'utils/getCards';
 import {shuffle} from 'pandemonium';
@@ -8,32 +8,24 @@ export const initialState: Game = {
   deck: getCards(),
   discard: [],
   settings: {
-    players: 4,
-    hand: 5,
+    numPlayers: 4,
+    numHand: 5,
   },
 };
 
 export const game = (state = initialState, action: Action): Game => {
   switch (action.type) {
     case 'SETUP': {
-      const {deck} = state;
-      const newPlayers: Player[] = [];
-      const newDeck = shuffle(deck);
-
-      for (let i = 0; i < state.settings.players; i++) {
-        const player = createPlayer();
-
-        for (let j = 0; j < state.settings.hand; j++) {
-          player.hand.push(newDeck.shift());
-        }
-
-        newPlayers.push(player);
-      }
+      const deck = shuffle(state.deck);
+      const {numPlayers, numHand} = state.settings;
+      const players = Array.from({length: numPlayers}, (_, i) =>
+        createPlayer({hand: deck.slice(i * numHand, (i + 1) * numHand)}),
+      );
 
       return {
         ...state,
-        players: newPlayers,
-        deck: newDeck,
+        players,
+        deck: deck.slice(numHand * numPlayers),
       };
     }
     case 'HARVEST': {
@@ -44,6 +36,7 @@ export const game = (state = initialState, action: Action): Game => {
       const numCardsToHarvest = cards.length;
       const doAllBeanFieldsHaveOneCard = beanFields.map(({cards}) => cards.length).every((length) => length === 1);
 
+      // Can't harvest empty bean field OR bean field with 1 card unless all others have 1 card
       if (!numCardsToHarvest || (numCardsToHarvest === 1 && !doAllBeanFieldsHaveOneCard)) {
         return {...state};
       }

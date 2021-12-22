@@ -49,6 +49,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:7.0.4"],
             ["jest", "virtual:4bf96ecd08a783507b564033e99512822738efe105772a14f20cbb44d99ff8415acd24a2a41d91f4ad6cf65e58a4aa1cc0900470f4bd95e6459a5c0baca1f22f#npm:27.4.5"],
             ["lint-staged", "npm:12.1.3"],
+            ["nanoid", "npm:3.1.30"],
             ["pandemonium", "npm:2.3.0"],
             ["pinst", "npm:2.1.6"],
             ["prettier", "npm:2.5.1"],
@@ -3737,6 +3738,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:7.0.4"],
             ["jest", "virtual:4bf96ecd08a783507b564033e99512822738efe105772a14f20cbb44d99ff8415acd24a2a41d91f4ad6cf65e58a4aa1cc0900470f4bd95e6459a5c0baca1f22f#npm:27.4.5"],
             ["lint-staged", "npm:12.1.3"],
+            ["nanoid", "npm:3.1.30"],
             ["pandemonium", "npm:2.3.0"],
             ["pinst", "npm:2.1.6"],
             ["prettier", "npm:2.5.1"],
@@ -6807,6 +6809,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ms-npm-2.1.3-81ff3cfac1-aa92de6080.zip/node_modules/ms/",
           "packageDependencies": [
             ["ms", "npm:2.1.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["nanoid", [
+        ["npm:3.1.30", {
+          "packageLocation": "./.yarn/cache/nanoid-npm-3.1.30-58cf6fe7ec-276d0d4b0c.zip/node_modules/nanoid/",
+          "packageDependencies": [
+            ["nanoid", "npm:3.1.30"]
           ],
           "linkType": "HARD",
         }]

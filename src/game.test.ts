@@ -1,6 +1,7 @@
 import {ActionTypes, Bean, Game} from 'types';
 import {game, initialState} from './game';
 import {createCardsOfVariety} from 'utils/getCards';
+import {createPlayer} from './player';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -17,8 +18,8 @@ describe('game', () => {
       ...initialState,
       deck: initialState.deck.slice(0, 10),
       settings: {
-        players: 2,
-        hand: 3,
+        numPlayers: 2,
+        numHand: 3,
       },
     };
 
@@ -36,12 +37,10 @@ describe('game', () => {
     const getState = (variety: Bean['variety'], amount: number): Game => ({
       ...initialState,
       players: [
-        {
+        createPlayer({
           id: 'player0',
           beanFields: [{cards: createCardsOfVariety(variety, amount)}, {cards: []}],
-          hand: [],
-          gold: [],
-        },
+        }),
       ],
     });
 
@@ -102,12 +101,10 @@ describe('game', () => {
       const state: Game = {
         ...initialState,
         players: [
-          {
+          createPlayer({
             id: 'player0',
             beanFields: [{cards: createCardsOfVariety('cocoa', 1)}, {cards: createCardsOfVariety('stink', 1)}],
-            hand: [],
-            gold: [],
-          },
+          }),
         ],
       };
 

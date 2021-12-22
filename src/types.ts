@@ -10,11 +10,12 @@ export interface Card extends Bean {
   id: string;
 }
 
-interface BeanField {
+export interface BeanField {
   cards: Card[]; // TODO: cards must be of same variety
 }
 
 export type BeanFields = [BeanField, BeanField] | [BeanField, BeanField, BeanField];
+export type BeanFieldIndex = 0 | 1 | 2;
 
 export interface Player {
   id: string;
@@ -31,8 +32,8 @@ export interface Game {
 }
 
 interface Settings {
-  players: number;
-  hand: number;
+  numPlayers: number;
+  numHand: number;
 }
 
 export enum ActionTypes {
@@ -50,6 +51,6 @@ export interface HarvestAction {
   type: ActionTypes.HARVEST;
   payload: {
     playerId: string;
-    beanFieldIndex: 0 | 1 | 2;
+    beanFieldIndex: BeanFieldIndex;
   };
 }
