@@ -1,4 +1,4 @@
-import {ActionTypes, Bean, Game} from 'types';
+import {ActionTypes, Bean, BeanFieldIndex, Game} from 'types';
 import {game, initialState} from './game';
 import {createCardsOfVariety} from 'utils/getCards';
 import {createPlayer} from './player';
@@ -47,7 +47,10 @@ describe('game', () => {
     const harvest = (variety: Bean['variety'], amount: number): Game => {
       return game(getState(variety, amount), {
         type: ActionTypes.HARVEST,
-        payload: {playerId: 'player0', beanFieldIndex: 0},
+        payload: {
+          playerId: 'player0',
+          beanFieldIndex: 0,
+        },
       });
     };
 
@@ -110,18 +113,106 @@ describe('game', () => {
 
       const harvestState = game(state, {
         type: ActionTypes.HARVEST,
-        payload: {playerId: 'player0', beanFieldIndex: 0},
+        payload: {
+          playerId: 'player0',
+          beanFieldIndex: 0,
+        },
       });
 
       expect(harvestState).toEqualHarvest(0, 0, 1);
     });
 
-    it('should do nothing if beanfield is empty', () => {
+    it('should do nothing if bean field is empty', () => {
       expect(harvest('stink', 0)).toEqualHarvest(0, 0, 0);
     });
 
-    it('should do nothing if beanfield has one card and other beanfields do not', () => {
+    it('should do nothing if bean field has one card and other bean fields do not', () => {
       expect(harvest('stink', 1)).toEqualHarvest(0, 1, 0);
+    });
+  });
+
+  describe('plant', () => {
+    const getState = (): Game => ({
+      ...initialState,
+      players: [createPlayer({id: 'player0', beanFields: [{cards: createCardsOfVariety('stink', 3)}, {cards: []}]})],
+    });
+
+    const plant = (variety: Bean['variety'], amount: number, beanFieldIndex: BeanFieldIndex = 0): Game => {
+      return game(getState(), {
+        type: ActionTypes.PLANT,
+        payload: {
+          playerId: 'player0',
+          beanFieldIndex,
+          cards: createCardsOfVariety(variety, amount),
+        },
+      });
+    };
+
+    it('should add cards to a bean field with cards of the same variety', () => {
+      const plantState = plant('stink', 2, 0);
+
+      expect(plantState.players[0].beanFields[0].cards.length).toEqual(5);
+      expect(plantState.players[0].beanFields[1].cards.length).toEqual(0);
+    });
+
+    it('should add cards to an empty bean field', () => {
+      const plantState = plant('stink', 2, 1);
+
+      expect(plantState.players[0].beanFields[0].cards.length).toEqual(3);
+      expect(plantState.players[0].beanFields[1].cards.length).toEqual(2);
+    });
+
+    it('should remove card from hand', () => {
+      const blueBean = createCardsOfVariety('blue', 1);
+
+      const state = {
+        ...initialState,
+        players: [
+          createPlayer({
+            id: 'player0',
+            hand: blueBean,
+            beanFields: [{cards: createCardsOfVariety('stink', 3)}, {cards: []}],
+          }),
+        ],
+      };
+
+      const plantState = game(state, {
+        type: ActionTypes.PLANT,
+        payload: {
+          playerId: 'player0',
+          beanFieldIndex: 1,
+          cards: blueBean,
+        },
+      });
+
+      expect(plantState.players[0].beanFields[0].cards.length).toEqual(3);
+      expect(plantState.players[0].beanFields[1].cards.length).toEqual(1);
+      expect(plantState.players[0].hand.length).toEqual(0);
+    });
+
+    it('should do nothing if zero cards provided', () => {
+      const plantState = plant('stink', 0, 0);
+
+      expect(plantState.players[0].beanFields[0].cards.length).toEqual(3);
+    });
+
+    it('should do nothing if cards have different variety', () => {
+      const plantState = game(getState(), {
+        type: ActionTypes.PLANT,
+        payload: {
+          playerId: 'player0',
+          beanFieldIndex: 0,
+          cards: [...createCardsOfVariety('stink', 1), ...createCardsOfVariety('red', 2)],
+        },
+      });
+
+      expect(plantState.players[0].beanFields[0].cards.length).toEqual(3);
+    });
+
+    it('should do nothing if bean field has cards of different variety', () => {
+      const plantState = plant('red', 2, 0);
+
+      expect(plantState.players[0].beanFields[0].cards.length).toEqual(3);
     });
   });
 });

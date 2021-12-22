@@ -60,6 +60,35 @@ export const game = (state = initialState, action: Action): Game => {
         discard: [...state.discard, ...discard],
       };
     }
+    case 'PLANT': {
+      const {playerId, beanFieldIndex, cards} = action.payload;
+      const {beanFields} = state.players.find(({id}) => id === playerId);
+      const beanField = beanFields[beanFieldIndex];
+      const {cards: bfCards} = beanField;
+
+      if (
+        !cards.length || // Can't plant zero cards
+        cards.some(({variety}) => variety !== cards[0].variety) || // Can't plant if cards have different varieties
+        bfCards.some(({variety}) => variety !== cards[0].variety) // Can't plant in bean field with cards of different variety
+      ) {
+        return {...state};
+      }
+
+      return {
+        ...state,
+        players: state.players.map((p) =>
+          p.id === playerId
+            ? {
+                ...p,
+                hand: p.hand.filter((h) => !cards.map(({id}) => id).includes(h.id)), // Remove from hand if there
+                beanFields: p.beanFields.map((b, i) =>
+                  i === beanFieldIndex ? {cards: [...beanFields[beanFieldIndex].cards, ...cards]} : b,
+                ) as BeanFields,
+              }
+            : p,
+        ),
+      };
+    }
     default:
       return {...state};
   }

@@ -39,9 +39,10 @@ interface Settings {
 export enum ActionTypes {
   SETUP = 'SETUP',
   HARVEST = 'HARVEST',
+  PLANT = 'PLANT',
 }
 
-export type Action = SetupAction | HarvestAction;
+export type Action = SetupAction | HarvestAction | PlantAction;
 
 export interface SetupAction {
   type: ActionTypes.SETUP;
@@ -52,5 +53,14 @@ export interface HarvestAction {
   payload: {
     playerId: string;
     beanFieldIndex: BeanFieldIndex;
+  };
+}
+
+export interface PlantAction {
+  type: ActionTypes.PLANT;
+  payload: {
+    playerId: string;
+    beanFieldIndex: BeanFieldIndex;
+    cards: Card[];
   };
 }
