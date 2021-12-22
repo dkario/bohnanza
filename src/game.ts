@@ -1,4 +1,4 @@
-import {Action, Game, Player} from 'types';
+import {Action, BeanFields, Game, Player} from 'types';
 import {createPlayer} from 'player';
 import getCards from 'utils/getCards';
 import {shuffle} from 'pandemonium';
@@ -37,39 +37,34 @@ export const game = (state = initialState, action: Action): Game => {
       };
     }
     case 'HARVEST': {
-      const {
-        payload: {playerId, beanFieldIndex},
-      } = action;
+      const {playerId, beanFieldIndex} = action.payload;
+      const {beanFields} = state.players.find(({id}) => id === playerId);
+      const {cards} = beanFields[beanFieldIndex];
 
-      const player = state.players.find(({id}) => id === playerId);
-      const {cards} = player.beanFields[beanFieldIndex];
       const numCardsToHarvest = cards.length;
-      const doAllBeanFieldsHaveOneCard = player.beanFields
-        .map(({cards}) => cards.length)
-        .every((length) => length === 1);
+      const doAllBeanFieldsHaveOneCard = beanFields.map(({cards}) => cards.length).every((length) => length === 1);
 
       if (!numCardsToHarvest || (numCardsToHarvest === 1 && !doAllBeanFieldsHaveOneCard)) {
         return {...state};
       }
 
       const {beanometer} = cards[0];
-      const numGold = beanometer.reduce(
-        (acc, numCardsForGold) => (acc = numCardsToHarvest < numCardsForGold ? acc : numCardsForGold),
-        0,
-      );
-      for (let i = 0; i < numGold; i++) {
-        player.gold.push(cards.shift());
-      }
-
-      const newDiscard = [...state.discard];
-      for (let i = numGold; i < numCardsToHarvest; i++) {
-        newDiscard.push(cards.shift());
-      }
+      const numGold = beanometer.filter((numCardsForGold) => numCardsForGold <= numCardsToHarvest).pop() || 0;
+      const gold = cards.slice(0, numGold);
+      const discard = cards.slice(numGold);
 
       return {
         ...state,
-        players: state.players.map((p) => (p.id === playerId ? player : p)),
-        discard: newDiscard,
+        players: state.players.map((p) =>
+          p.id === playerId
+            ? {
+                ...p,
+                gold: [...p.gold, ...gold],
+                beanFields: p.beanFields.map((b, i) => (i === beanFieldIndex ? {cards: []} : b)) as BeanFields,
+              }
+            : p,
+        ),
+        discard: [...state.discard, ...discard],
       };
     }
     default:

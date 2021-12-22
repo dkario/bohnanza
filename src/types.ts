@@ -14,7 +14,7 @@ interface BeanField {
   cards: Card[]; // TODO: cards must be of same variety
 }
 
-type BeanFields = [BeanField, BeanField] | [BeanField, BeanField, BeanField];
+export type BeanFields = [BeanField, BeanField] | [BeanField, BeanField, BeanField];
 
 export interface Player {
   id: string;
