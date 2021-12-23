@@ -28,21 +28,25 @@ export interface Game {
   players: Player[];
   deck: Card[];
   discard: Card[];
+  round: 0 | 1 | 2 | 3;
   settings: Settings;
 }
 
 interface Settings {
   numPlayers: number;
   numHand: number;
+  numRounds: number;
 }
 
 export enum ActionTypes {
   SETUP = 'SETUP',
   HARVEST = 'HARVEST',
   PLANT = 'PLANT',
+  DRAW_TWO = 'DRAW_TWO',
+  DRAW_THREE = 'DRAW_THREE',
 }
 
-export type Action = SetupAction | HarvestAction | PlantAction;
+export type Action = SetupAction | HarvestAction | PlantAction | DrawTwoAction | DrawThreeAction;
 
 export interface SetupAction {
   type: ActionTypes.SETUP;
@@ -62,5 +66,19 @@ export interface PlantAction {
     playerId: string;
     beanFieldIndex: BeanFieldIndex;
     cards: Card[];
+  };
+}
+
+export interface DrawTwoAction {
+  type: ActionTypes.DRAW_TWO;
+  payload: {
+    playerId: string;
+  };
+}
+
+export interface DrawThreeAction {
+  type: ActionTypes.DRAW_THREE;
+  payload: {
+    playerId: string;
   };
 }

@@ -20,6 +20,7 @@ describe('game', () => {
       settings: {
         numPlayers: 2,
         numHand: 3,
+        numRounds: 1,
       },
     };
 
@@ -213,6 +214,95 @@ describe('game', () => {
       const plantState = plant('red', 2, 0);
 
       expect(plantState.players[0].beanFields[0].cards.length).toEqual(3);
+    });
+  });
+
+  describe('draw two', () => {
+    const getState = (): Game => ({
+      ...initialState,
+      players: [createPlayer({id: 'player0', hand: createCardsOfVariety('stink', 1)})],
+      deck: createCardsOfVariety('red', 3),
+      discard: createCardsOfVariety('coffee', 4),
+    });
+
+    const drawTwo = (state: Game): Game => {
+      return game(state, {
+        type: ActionTypes.DRAW_TWO,
+        payload: {playerId: 'player0'},
+      });
+    };
+
+    it('should move two hands from deck to player', () => {
+      const state = getState();
+      const drawTwoState = drawTwo(state);
+
+      expect(drawTwoState.deck.length).toEqual(1);
+      expect(drawTwoState.players[0].hand.map(({variety}) => variety)).toEqual(['stink', 'red', 'red']);
+      expect(drawTwoState.discard.length).toEqual(4);
+      expect(drawTwoState.round).toEqual(0);
+    });
+
+    describe('when deck has one card', () => {
+      it('should shuffle discard to create new deck', () => {
+        const state = {...getState(), deck: createCardsOfVariety('red', 1)};
+        const drawTwoState = drawTwo(state);
+
+        expect(drawTwoState.deck.length).toEqual(3);
+        expect(drawTwoState.players[0].hand.map(({variety}) => variety)).toEqual(['stink', 'red', 'coffee']);
+        expect(drawTwoState.players[0].hand[2].id).toEqual('coffee-3'); // Shuffle mock reverses [coffee-0, ..., coffee-3]
+        expect(drawTwoState.discard.length).toEqual(0);
+        expect(drawTwoState.round).toEqual(1);
+      });
+    });
+
+    describe('when deck has two cards', () => {
+      it('should shuffle discard to create new deck', () => {
+        const state = {...getState(), deck: createCardsOfVariety('red', 2)};
+        const drawTwoState = drawTwo(state);
+
+        expect(drawTwoState.deck.length).toEqual(4);
+        expect(drawTwoState.players[0].hand.map(({variety}) => variety)).toEqual(['stink', 'red', 'red']);
+        expect(drawTwoState.discard.length).toEqual(0);
+        expect(drawTwoState.round).toEqual(1);
+      });
+    });
+  });
+
+  describe('draw three', () => {
+    const getState = (): Game => ({
+      ...initialState,
+      players: [createPlayer({id: 'player0', hand: createCardsOfVariety('stink', 1)})],
+      deck: createCardsOfVariety('red', 4),
+      discard: createCardsOfVariety('coffee', 4),
+    });
+
+    const drawThree = (state: Game): Game => {
+      return game(state, {
+        type: ActionTypes.DRAW_THREE,
+        payload: {playerId: 'player0'},
+      });
+    };
+
+    it('should move three hands from deck to player', () => {
+      const state = getState();
+      const drawThreeState = drawThree(state);
+
+      expect(drawThreeState.deck.length).toEqual(1);
+      expect(drawThreeState.players[0].hand.map(({variety}) => variety)).toEqual(['stink', 'red', 'red', 'red']);
+      expect(drawThreeState.discard.length).toEqual(4);
+      expect(drawThreeState.round).toEqual(0);
+    });
+
+    describe('when deck has three cards', () => {
+      it('should shuffle discard to create new deck', () => {
+        const state = {...getState(), deck: createCardsOfVariety('red', 3)};
+        const drawThreeState = drawThree(state);
+
+        expect(drawThreeState.deck.length).toEqual(4);
+        expect(drawThreeState.players[0].hand.map(({variety}) => variety)).toEqual(['stink', 'red', 'red', 'red']);
+        expect(drawThreeState.discard.length).toEqual(0);
+        expect(drawThreeState.round).toEqual(1);
+      });
     });
   });
 });

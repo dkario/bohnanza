@@ -1,4 +1,4 @@
-import {Action, BeanFields, Game} from 'types';
+import {Action, BeanFields, Card, DrawThreeAction, DrawTwoAction, Game} from 'types';
 import {createPlayer} from 'player';
 import getCards from 'utils/getCards';
 import {shuffle} from 'pandemonium';
@@ -7,10 +7,34 @@ export const initialState: Game = {
   players: [],
   deck: getCards(),
   discard: [],
+  round: 0,
   settings: {
     numPlayers: 4,
     numHand: 5,
+    numRounds: 3,
   },
+};
+
+const draw = (state: Game, action: DrawTwoAction | DrawThreeAction, numCards: number): Game => {
+  const {playerId} = action.payload;
+  const isNextRound = state.deck.length <= numCards;
+  const deck: Card[] =
+    isNextRound && state.round + 1 < state.settings.numRounds ? state.deck.concat(shuffle(state.discard)) : state.deck;
+
+  return {
+    ...state,
+    players: state.players.map((p) =>
+      p.id === playerId
+        ? {
+            ...p,
+            hand: p.hand.concat(deck.slice(0, numCards)),
+          }
+        : p,
+    ),
+    deck: deck.slice(numCards),
+    discard: isNextRound ? [] : state.discard,
+    round: isNextRound ? (Math.min(state.round + 1, state.settings.numRounds) as Game['round']) : state.round,
+  };
 };
 
 export const game = (state = initialState, action: Action): Game => {
@@ -38,7 +62,7 @@ export const game = (state = initialState, action: Action): Game => {
 
       // Can't harvest empty bean field OR bean field with 1 card unless all others have 1 card
       if (!numCardsToHarvest || (numCardsToHarvest === 1 && !doAllBeanFieldsHaveOneCard)) {
-        return {...state};
+        return state;
       }
 
       const {beanometer} = cards[0];
@@ -71,7 +95,7 @@ export const game = (state = initialState, action: Action): Game => {
         cards.some(({variety}) => variety !== cards[0].variety) || // Can't plant if cards have different varieties
         bfCards.some(({variety}) => variety !== cards[0].variety) // Can't plant in bean field with cards of different variety
       ) {
-        return {...state};
+        return state;
       }
 
       return {
@@ -89,7 +113,13 @@ export const game = (state = initialState, action: Action): Game => {
         ),
       };
     }
+    case 'DRAW_TWO': {
+      return draw(state, action, 2);
+    }
+    case 'DRAW_THREE': {
+      return draw(state, action, 3);
+    }
     default:
-      return {...state};
+      return state;
   }
 };
