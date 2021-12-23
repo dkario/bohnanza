@@ -119,6 +119,29 @@ export const game = (state = initialState, action: Action): Game => {
     case 'DRAW_THREE': {
       return draw(state, action, 3);
     }
+    case 'BUY_THIRD_BEAN_FIELD': {
+      const {playerId} = action.payload;
+      const {beanFields, gold} = state.players.find(({id}) => id === playerId);
+      const thirdBeanFieldCost = [6, 7].includes(state.settings.numPlayers) ? 2 : 3; // With 6 or 7 players, bean fields cost 2 gold
+
+      if (beanFields.length === 3 || gold.length < thirdBeanFieldCost) {
+        return state;
+      }
+
+      return {
+        ...state,
+        players: state.players.map((p) =>
+          p.id === playerId
+            ? {
+                ...p,
+                gold: p.gold.slice(thirdBeanFieldCost),
+                beanFields: [...p.beanFields, {cards: []}] as BeanFields,
+              }
+            : p,
+        ),
+        discard: state.settings.numPlayers === 2 ? state.discard : gold.slice(0, thirdBeanFieldCost), // With 2 players, destroy 3 gold instead of discarding
+      };
+    }
     default:
       return state;
   }

@@ -18,9 +18,9 @@ describe('game', () => {
       ...initialState,
       deck: initialState.deck.slice(0, 10),
       settings: {
+        ...initialState.settings,
         numPlayers: 2,
         numHand: 3,
-        numRounds: 1,
       },
     };
 
@@ -303,6 +303,96 @@ describe('game', () => {
         expect(drawThreeState.discard.length).toEqual(0);
         expect(drawThreeState.round).toEqual(1);
       });
+    });
+  });
+
+  describe('buying a third bean field', () => {
+    const getState = (): Game => ({
+      ...initialState,
+      players: [createPlayer({id: 'player0', gold: createCardsOfVariety('stink', 4)})],
+    });
+
+    const buyThirdBeanField = (state: Game): Game => {
+      return game(state, {
+        type: ActionTypes.BUY_THIRD_BEAN_FIELD,
+        payload: {playerId: 'player0'},
+      });
+    };
+
+    describe('with four or five players', () => {
+      it('should add a third beanfield and move three gold from player to discard', () => {
+        const validate = (buyThirdBeanFieldState: Game) => {
+          expect(buyThirdBeanFieldState.players[0].gold.length).toEqual(1);
+          expect(buyThirdBeanFieldState.players[0].beanFields.length).toEqual(3);
+          expect(buyThirdBeanFieldState.players[0].beanFields[2].cards.length).toEqual(0);
+          expect(buyThirdBeanFieldState.discard.length).toEqual(3);
+        };
+
+        const state = getState();
+        validate(buyThirdBeanField(state));
+
+        state.settings.numPlayers = 5;
+        validate(buyThirdBeanField(state));
+      });
+    });
+
+    describe('with six or seven players', () => {
+      it('should add a third beanfield and move two gold from player to discard', () => {
+        const validate = (buyThirdBeanFieldState: Game) => {
+          expect(buyThirdBeanFieldState.players[0].gold.length).toEqual(2);
+          expect(buyThirdBeanFieldState.players[0].beanFields.length).toEqual(3);
+          expect(buyThirdBeanFieldState.players[0].beanFields[2].cards.length).toEqual(0);
+          expect(buyThirdBeanFieldState.discard.length).toEqual(2);
+        };
+
+        const state: Game = {...getState(), settings: {...initialState.settings, numPlayers: 6}};
+        validate(buyThirdBeanField(state));
+
+        state.settings.numPlayers = 7;
+        validate(buyThirdBeanField(state));
+      });
+    });
+
+    describe('with two players', () => {
+      it('should add a third beanfield and destroy three gold from player', () => {
+        const state: Game = {...getState(), settings: {...initialState.settings, numPlayers: 2}};
+        const buyThirdBeanFieldState = buyThirdBeanField(state);
+
+        expect(buyThirdBeanFieldState.players[0].gold.length).toEqual(1);
+        expect(buyThirdBeanFieldState.players[0].beanFields.length).toEqual(3);
+        expect(buyThirdBeanFieldState.players[0].beanFields[2].cards.length).toEqual(0);
+        expect(buyThirdBeanFieldState.discard.length).toEqual(0);
+      });
+    });
+
+    it('should do nothing if player already has third bean field', () => {
+      const state: Game = {
+        ...initialState,
+        players: [
+          createPlayer({
+            id: 'player0',
+            gold: createCardsOfVariety('stink', 4),
+            beanFields: [{cards: []}, {cards: []}, {cards: []}],
+          }),
+        ],
+      };
+      const buyThirdBeanFieldState = buyThirdBeanField(state);
+
+      expect(buyThirdBeanFieldState.players[0].gold.length).toEqual(4);
+      expect(buyThirdBeanFieldState.players[0].beanFields.length).toEqual(3);
+      expect(buyThirdBeanFieldState.discard.length).toEqual(0);
+    });
+
+    it('should do nothing if player has fewer than cost of third bean field', () => {
+      const state: Game = {
+        ...initialState,
+        players: [createPlayer({id: 'player0', gold: createCardsOfVariety('stink', 2)})],
+      };
+      const buyThirdBeanFieldState = buyThirdBeanField(state);
+
+      expect(buyThirdBeanFieldState.players[0].gold.length).toEqual(2);
+      expect(buyThirdBeanFieldState.players[0].beanFields.length).toEqual(2);
+      expect(buyThirdBeanFieldState.discard.length).toEqual(0);
     });
   });
 });

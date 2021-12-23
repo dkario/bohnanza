@@ -44,9 +44,16 @@ export enum ActionTypes {
   PLANT = 'PLANT',
   DRAW_TWO = 'DRAW_TWO',
   DRAW_THREE = 'DRAW_THREE',
+  BUY_THIRD_BEAN_FIELD = 'BUY_THIRD_BEAN_FIELD',
 }
 
-export type Action = SetupAction | HarvestAction | PlantAction | DrawTwoAction | DrawThreeAction;
+export type Action =
+  | SetupAction
+  | HarvestAction
+  | PlantAction
+  | DrawTwoAction
+  | DrawThreeAction
+  | BuyThirdBeanFieldAction;
 
 export interface SetupAction {
   type: ActionTypes.SETUP;
@@ -78,6 +85,13 @@ export interface DrawTwoAction {
 
 export interface DrawThreeAction {
   type: ActionTypes.DRAW_THREE;
+  payload: {
+    playerId: string;
+  };
+}
+
+export interface BuyThirdBeanFieldAction {
+  type: ActionTypes.BUY_THIRD_BEAN_FIELD;
   payload: {
     playerId: string;
   };
